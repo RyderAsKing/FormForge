@@ -84,10 +84,10 @@ class FormController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Form $form)
     {
         //
-        return view('admin.forms.edit');
+        return view('admin.forms.edit', compact('form'));
     }
 
     /**
@@ -100,6 +100,36 @@ class FormController extends Controller
     public function update(Request $request, $id)
     {
         //
+        $request->validate([
+            'name' => 'required',
+            'description' => 'required',
+            'fields' => 'json|required',
+            'status' => 'required',
+        ]);
+
+        $form = Form::find($id);
+
+        $form->name = $request->name;
+        $form->description = $request->description;
+
+        $jsonFields = json_decode($request->fields, true);
+
+        // reset fields
+        $form->fields = new \stdClass();
+
+        foreach ($jsonFields as $field) {
+            $key = $field['key'];
+            $value = $field['value'];
+
+            $form->fields->$key = $value;
+        }
+
+        $form->status = $request->status;
+        $form->save();
+
+        return redirect()
+            ->route('admin.forms.index')
+            ->with('success', 'Form updated successfully.');
     }
 
     /**
