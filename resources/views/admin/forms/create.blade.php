@@ -83,6 +83,7 @@
             <select name="fieldType[]" class="border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm">
                 <option value="text">Text</option>
                 <option value="checkbox">Checkbox</option>
+                <option value="password">Password</option>
             </select>
             <x-secondary-button type="button" onclick="removeField(this)">Remove</x-secondary-button>
           `;
