@@ -51,4 +51,9 @@ Route::get('forms/{key}', [
     'index',
 ])->name('forms');
 
+Route::post('forms/{form}', [
+    App\Http\Controllers\ResponseController::class,
+    'store',
+])->name('forms.store');
+
 require __DIR__ . '/auth.php';
