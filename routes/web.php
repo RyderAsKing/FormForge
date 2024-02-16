@@ -1,7 +1,9 @@
 <?php
 
-use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\Admin\FormController;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,17 +16,24 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', [App\Http\Controllers\ResponseController::class, 'index']);
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})
-    ->middleware(['admin', 'auth', 'verified'])
-    ->name('dashboard');
+Route::middleware(['admin', 'auth'])->group(function () {
+    // dashboard
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name(
+        'dashboard'
+    );
 
-Route::middleware('auth')->group(function () {
+    // forms
+    Route::name('admin')->resource('admin/forms', FormController::class);
+
+    // responses
+    Route::name('admin')->resource(
+        'admin/responses',
+        App\Http\Controllers\Admin\ResponseController::class
+    );
+
+    // profile
     Route::get('/profile', [ProfileController::class, 'edit'])->name(
         'profile.edit'
     );
