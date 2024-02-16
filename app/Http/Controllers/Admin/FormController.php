@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Models\Form;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -69,6 +70,7 @@ class FormController extends Controller
         }
 
         $form->status = $request->status;
+        $form->key = Str::random(10);
         $form->save();
 
         return redirect()

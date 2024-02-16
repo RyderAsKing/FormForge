@@ -15,8 +15,9 @@ use App\Http\Controllers\Admin\FormController;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-
-Route::get('/', [App\Http\Controllers\ResponseController::class, 'index']);
+Route::get('/', function () {
+    return redirect()->route('login');
+});
 
 Route::middleware(['admin', 'auth'])->group(function () {
     // dashboard
@@ -44,5 +45,10 @@ Route::middleware(['admin', 'auth'])->group(function () {
         'profile.destroy'
     );
 });
+
+Route::get('forms/{key}', [
+    App\Http\Controllers\ResponseController::class,
+    'index',
+])->name('forms');
 
 require __DIR__ . '/auth.php';
