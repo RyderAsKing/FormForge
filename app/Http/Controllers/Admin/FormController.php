@@ -44,6 +44,7 @@ class FormController extends Controller
             'name' => 'required',
             'description' => 'required',
             'fields' => 'json|required',
+            'status' => 'required',
         ]);
 
         $form = new Form();
@@ -59,6 +60,7 @@ class FormController extends Controller
             $form->fields->$key = $value;
         }
 
+        $form->status = $request->status;
         $form->save();
 
         return redirect()

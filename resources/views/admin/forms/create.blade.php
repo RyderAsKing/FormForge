@@ -35,6 +35,19 @@
                             @enderror
                         </div>
 
+                        <div class="flex flex-col">
+                            <x-input-label for="status" value="Status" />
+                            <select name="status"
+                                class="border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm">
+                                <option value="draft">Draft</option>
+                                <option value="published">Published
+                                </option>
+                            </select>
+                            @error('status')
+                            <x-input-error :messages="$message"> </x-input-error>
+                            @enderror
+                        </div>
+
                         <input type="hidden" name="fields" id="fieldsInput">
 
                         <x-input-label for="fields" value="Fields" />
