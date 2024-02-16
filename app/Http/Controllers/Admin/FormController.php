@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
+use App\Models\Form;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 
 class FormController extends Controller
 {
@@ -15,6 +16,8 @@ class FormController extends Controller
     public function index()
     {
         //
+        $forms = Form::paginate(10);
+        return view('admin.forms.index', compact('forms'));
     }
 
     /**
@@ -25,6 +28,7 @@ class FormController extends Controller
     public function create()
     {
         //
+        return view('admin.forms.create');
     }
 
     /**
@@ -36,6 +40,30 @@ class FormController extends Controller
     public function store(Request $request)
     {
         //
+        $request->validate([
+            'name' => 'required',
+            'description' => 'required',
+            'fields' => 'json|required',
+        ]);
+
+        $form = new Form();
+        $form->name = $request->name;
+        $form->description = $request->description;
+
+        $jsonFields = json_decode($request->fields, true);
+
+        foreach ($jsonFields as $field) {
+            $key = $field['key'];
+            $value = $field['value'];
+
+            $form->fields->$key = $value;
+        }
+
+        $form->save();
+
+        return redirect()
+            ->route('admin.forms.index')
+            ->with('success', 'Form created successfully.');
     }
 
     /**
@@ -44,9 +72,10 @@ class FormController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Form $form)
     {
         //
+        return view('admin.forms.show', compact('form'));
     }
 
     /**
@@ -58,6 +87,7 @@ class FormController extends Controller
     public function edit($id)
     {
         //
+        return view('admin.forms.edit');
     }
 
     /**
