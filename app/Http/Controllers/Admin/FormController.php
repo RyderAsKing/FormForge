@@ -13,6 +13,14 @@ class FormController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+    // use admin middleware
+
+    public function __construct()
+    {
+        $this->middleware('admin');
+    }
+
     public function index()
     {
         //
@@ -140,8 +148,12 @@ class FormController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Form $form)
     {
         //
+        $form->delete();
+        return redirect()
+            ->route('admin.forms.index')
+            ->with('success', 'Form deleted successfully.');
     }
 }
