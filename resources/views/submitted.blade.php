@@ -32,12 +32,11 @@
     </head>
 
     <body class="flex items-center justify-center h-screen">
-        <div class="bg-green-100  text-green-700  rounded-lg">
-            <p class="text-2xl font-bold">Form submitted successfully</p>
+        <div class="rounded-lg">
+            <p class="text-4xl font-bold">Form submitted successfully</p>
             <p>Your form has been submitted successfully, here is the unique response ID for your form.
                 <br><code>{{$key}}</code>
             </p>
-
         </div>
         </div>
     </body>
