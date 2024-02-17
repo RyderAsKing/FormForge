@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
+use App\Models\Response;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 
 class ResponseController extends Controller
 {
@@ -15,6 +16,9 @@ class ResponseController extends Controller
     public function index()
     {
         //
+        $responses = Response::paginate(20);
+
+        return view('admin.responses.index', compact('responses'));
     }
 
     /**
@@ -44,9 +48,10 @@ class ResponseController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($key)
     {
-        //
+        $response = Response::where('key', $key)->firstOrFail();
+        return view('admin.responses.show', compact('response'));
     }
 
     /**
