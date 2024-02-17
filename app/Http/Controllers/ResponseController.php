@@ -31,7 +31,8 @@ class ResponseController extends Controller
         $response->key = bin2hex(random_bytes(32));
 
         foreach ($allowedFields as $field) {
-            $response->fields->$field = $request->$field;
+            $fieldName = str_replace(' ', '_', $field);
+            $response->fields->$fieldName = $request->$fieldName;
         }
 
         $response->save();
