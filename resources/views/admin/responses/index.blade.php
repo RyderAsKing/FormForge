@@ -114,6 +114,34 @@
                                 class="font-medium text-blue-600 hover:underline">Edit</a>
                             <a href="{{route('admin.responses.show', $response->key)}}"
                                 class="font-medium text-blue-600 hover:underline">View</a>
+                            <!-- Delete Button with Confirmation -->
+                            <div x-data="{ open: false }" class="inline-block">
+                                <button @click="open = true"
+                                    class="font-medium text-red-600 hover:underline focus:outline-none">Delete</button>
+
+                                <!-- Confirmation Dialog -->
+                                <div x-show="open" x-cloak style="display: none;">
+                                    <div
+                                        class="fixed inset-0 flex items-center justify-center bg-gray-500 bg-opacity-50 z-50">
+                                        <div class="bg-white p-4 rounded-lg shadow-md max-w-md mx-auto">
+                                            <h2 class="text-lg mb-2">Are you sure you want to delete this
+                                                response?</h2>
+                                            <p>This action is irreversible and the data will be lost permanently. </p>
+                                            <div class="flex justify-end gap-4 mt-6">
+                                                <button @click=" open=false" class="px-4 py-2 bg-gray-200 rounded-md">
+                                                    Cancel</button>
+                                                <form method="POST"
+                                                    action="{{route('admin.responses.destroy', $response)}}">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="submit"
+                                                        class="px-4 py-2 bg-red-600 text-white rounded-md">Delete</button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </td>
                     </tr>
                     @endforeach

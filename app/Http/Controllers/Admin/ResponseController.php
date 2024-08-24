@@ -83,8 +83,12 @@ class ResponseController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Response $response)
     {
         //
+        $response->delete();
+        return redirect()
+            ->back()
+            ->with('success', 'Response deleted successfully');
     }
 }
